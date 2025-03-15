@@ -1,4 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export default function ResultDialog({ref, timeRemaining, targetTime, onReset}){
 
@@ -16,7 +17,9 @@ export default function ResultDialog({ref, timeRemaining, targetTime, onReset}){
         }
     })
 
-    return (
+
+    //create portal is useful for when you want to use component in a place, but also put the jsx in another place
+    return createPortal(
         <dialog className="result-modal" ref={dialog} onClose={onReset}>
             {lost && <h2>You lost</h2>}
             {!lost && <h2> Your score is: {score}</h2>}
@@ -29,7 +32,8 @@ export default function ResultDialog({ref, timeRemaining, targetTime, onReset}){
             <form method="dialog" onSubmit={onReset}>
                 <button>Close</button>
             </form>
-        </dialog>
+        </dialog>,
+        document.getElementById('modal')
     );
 }
     
